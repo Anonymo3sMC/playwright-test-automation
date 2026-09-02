@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
 test.use({ ignoreHTTPSErrors: true });
 
 test('API Test - Succesvol inloggen via POST request', async ({ request }) => {
-  const response = await request.post('https://herokuapp.com', {
+  const response = await request.post('https://the-internet.herokuapp.com/login.com', {
     form: {
       username: 'tomsmith',
       password: 'SuperSecretPassword!'
@@ -19,7 +19,7 @@ test('API Test - Succesvol inloggen via POST request', async ({ request }) => {
 });
 
 test('API Test - Foutmelding bij verkeerde gegevens via POST request', async ({ request }) => {
-  const response = await request.post('https://herokuapp.com', {
+  const response = await request.post('https://the-internet.herokuapp.com/login', {
     form: {
       username: 'tomsmith',
       password: 'VerkeerdWachtwoord!'
