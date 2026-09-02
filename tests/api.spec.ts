@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
 test.use({ ignoreHTTPSErrors: true });
 
 test('API Test - Succesvol inloggen via POST request', async ({ request }) => {
-  const response = await request.post('https://herokuapp.com', {
+  const response = await request.post('https://the-internet.herokuapp.com/login', {
     form: {
       username: 'tomsmith',
       password: 'SuperSecretPassword!'
