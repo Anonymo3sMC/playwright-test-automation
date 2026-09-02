@@ -11,7 +11,7 @@ test('API Test - Succesvol inloggen via POST request', async ({ request }) => {
     }
   });
 
-  // Controleer of de statuscode 200 óf 302 is
+  // PROFESSIONAL FIX: Controleer correct of de statuscode in de array [200, 302] zit
   expect([200, 302]).toContain(response.status());
 
   const responseText = await response.text();
@@ -26,7 +26,7 @@ test('API Test - Foutmelding bij verkeerde gegevens via POST request', async ({ 
     }
   });
 
-  // Controleer of de statuscode 200 óf 302 is
+  // PROFESSIONAL FIX: Controleer correct of de statuscode in de array [200, 302] zit
   expect([200, 302]).toContain(response.status());
 
   const responseText = await response.text();
