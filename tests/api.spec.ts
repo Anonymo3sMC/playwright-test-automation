@@ -18,7 +18,7 @@ test('API Test - Succesvol inloggen via POST request', async ({ request }) => {
 });
 
 test('API Test - Foutmelding bij verkeerde gegevens via POST request', async ({ request }) => {
-  const response = await request.post('https://herokuapp.com', {
+  const response = await request.post('https://the-internet.herokuapp.com/login', {
     form: {
       username: 'tomsmith',
       password: 'VerkeerdWachtwoord!'
