@@ -8,14 +8,15 @@ test('API Test - Succesvol inloggen via POST request', async ({ request }) => {
     form: {
       username: 'tomsmith',
       password: 'SuperSecretPassword!'
-    }
+    },
+    maxRedirects: 0 // TI-FIX: Volg de redirect niet! Pak direct de statuscode.
   });
 
-  // PROFESSIONAL FIX: Controleer correct of de statuscode in de array [200, 302] zit
-  expect([200, 302]).toContain(response.status());
-
-  const responseText = await response.text();
-  expect(responseText).toContain('Secure Area');
+  // Een succesvolle inlog stuurt je direct door (HTTP 302) naar de beveiligde pagina
+  expect(response.status()).toBe(302);
+  
+  // Controleer of de server in de headers aangeeft dat hij je naar /secure stuurt
+  expect(response.headers().location).toContain('/secure');
 });
 
 test('API Test - Foutmelding bij verkeerde gegevens via POST request', async ({ request }) => {
@@ -23,12 +24,13 @@ test('API Test - Foutmelding bij verkeerde gegevens via POST request', async ({ 
     form: {
       username: 'tomsmith',
       password: 'VerkeerdWachtwoord!'
-    }
+    },
+    maxRedirects: 0 // TI-FIX: Volg de redirect niet!
   });
 
-  // PROFESSIONAL FIX: Controleer correct of de statuscode in de array [200, 302] zit
-  expect([200, 302]).toContain(response.status());
-
-  const responseText = await response.text();
-  expect(responseText).toContain('Your password is invalid!');
+  // Een mislukte inlog stuurt je direct door (HTTP 302) terug naar de login-pagina
+  expect(response.status()).toBe(302);
+  
+  // Controleer of de server je terugstuurt naar de login-pagina
+  expect(response.headers().location).toContain('/login');
 });
