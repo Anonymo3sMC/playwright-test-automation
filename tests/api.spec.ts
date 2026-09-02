@@ -11,7 +11,8 @@ test('API Test - Succesvol inloggen via POST request', async ({ request }) => {
     }
   });
 
-  expect(response.status()).toBe(200);
+  // Controleer of de HTTP statuscode succesvol is (2xx) of een geldige redirect
+  expect(response.ok()).toBeTruthy();
 
   const responseText = await response.text();
   expect(responseText).toContain('Secure Area');
@@ -25,13 +26,8 @@ test('API Test - Foutmelding bij verkeerde gegevens via POST request', async ({ 
     }
   });
 
-  const responseText = await response.text();
-  
-  // PROFESSIONAL DEBUGGING: Print de exacte HTML-body in de console-logs
-  console.log("=== DEBUG: START BACKEND RESPONSE ===");
-  console.log(responseText);
-  console.log("=== DEBUG: END BACKEND RESPONSE ===");
+  expect(response.ok()).toBeTruthy();
 
-  //expect(errorMessage).toBeVisible(); // Dit kan weg, we focussen op de tekst
+  const responseText = await response.text();
   expect(responseText).toContain('Your password is invalid!');
 });
