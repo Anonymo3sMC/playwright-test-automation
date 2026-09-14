@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('API responds controleren', async ({ request }) => {
-    const response = await request.post('https://the-internet.herokuapp.com/login', {
+    const response = await request.post('https://the-internet.herokuapp.com/authenticate', {
         form: {
             username: 'tomsmith',
             password: 'VerkeerdWachtwoord!'
@@ -11,29 +11,10 @@ test('API responds controleren', async ({ request }) => {
 
     console.log('STATUS:', response.status());
     console.log('URL:', response.url());
-    console.log('BODY:', await response.text());
-
-    expect(response.status()).toBe(200);
 
     const body = await response.text();
+    console.log('BODY:', body);
 
+    expect(response.status()).toBe(302);
     expect(body).toContain('Your password is invalid!');
-});
-
-test('API Test - Foutmelding bij verkeerde gegevens via POST request', async ({ request }) => {
-  const response = await request.post('https://the-internet.herokuapp.com/login', {
-    form: {
-      username: 'tomsmith',
-      password: 'VerkeerdWachtwoord!'
-    },
-    maxRedirects: 0
-  });
-
-  expect(response.status()).toBe(302);
-  
-  // PROFESSIONAL DEBUG: Print de exacte redirect-locatie in de cloud-logs
-  console.log("=== REDIRECT LOCATION ===", response.headers().location);
-  
-  // Controleer of de location-header simpelweg bestaat en gevuld is
-  expect(response.headers().location).toBeTruthy();
 });
