@@ -1,6 +1,4 @@
-import { test, expect } from '@playwright/test';
-
-test('API responds controleren', async ({ request }) => {
+test('API - verkeerde login geeft redirect', async ({ request }) => {
     const response = await request.post(
         'https://the-internet.herokuapp.com/authenticate',
         {
@@ -12,12 +10,9 @@ test('API responds controleren', async ({ request }) => {
         }
     );
 
-    console.log('STATUS:', response.status());
-    console.log('URL:', response.url());
-
-    const body = await response.text();
-    console.log('BODY:', body);
-
     expect(response.status()).toBe(303);
-    expect(body).toContain('Your password is invalid!');
+
+    expect(response.headers().location).toBe(
+        'https://the-internet.herokuapp.com/login'
+    );
 });
