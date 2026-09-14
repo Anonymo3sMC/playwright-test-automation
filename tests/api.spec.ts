@@ -9,6 +9,10 @@ test('API responds controleren', async ({ request }) => {
         maxRedirects: 0
     });
 
+    console.log('STATUS:', response.status());
+    console.log('URL:', response.url());
+    console.log('BODY:', await response.text());
+
     expect(response.status()).toBe(200);
 
     const body = await response.text();
